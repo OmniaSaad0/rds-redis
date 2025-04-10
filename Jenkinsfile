@@ -15,6 +15,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh """
+                        pwd
                         echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin                        
                         docker build /home/ubuntu/jenkins/workspace/deploy-node-app/rds-redis -t omniasaad/node-jenkins:v2
                         docker push omniasaad/node-jenkins:v2
