@@ -16,7 +16,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh """
                         echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin                        
-                        docker build ./rds-redis -t omniasaad/node-jenkins:v2
+                        docker build /home/ubuntu/jenkins/workspace/deploy-node-app/rds-redis -t omniasaad/node-jenkins:v2
                         docker push omniasaad/node-jenkins:v2
                     """
                 }
@@ -26,7 +26,7 @@ pipeline {
         stage('deploy') {
             steps {
                 sh """
-                    docker run -d -p 3000:3000 --env-file ./rds-redis/.env omniasaad/node-jenkins:v2
+                    docker run -d -p 3000:3000 --env-file /home/ubuntu/jenkins/workspace/deploy-node-app/rds-redis/.env omniasaad/node-jenkins:v2
                 """
             }
         }
